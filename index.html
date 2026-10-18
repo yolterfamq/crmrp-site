@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>CRM RP — ролевой сервер MTA:SA</title>
+  <meta name="description" content="CRM RP — ролевой сервер GTA San Andreas в Multi Theft Auto. Скачай лаунчер, он сам установит игру.">
+  <meta name="theme-color" content="#100c16">
+  <link rel="icon" href="assets/icon.png">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/site.config.js"></script>
+</head>
+<body>
+  <header class="top">
+    <a class="logo" href="#" aria-label="CRM RP, на главную"><span>CRM</span><b>RP</b></a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="#start">Как начать</a>
+      <a href="#servers">Серверы</a>
+      <a href="#community" data-forum-link>Форум</a>
+    </nav>
+    <a class="btn btn-small" data-download href="#start">Играть</a>
+  </header>
+
+  <main>
+    <section class="hero" aria-labelledby="hero-title">
+      <canvas id="sky" aria-hidden="true"></canvas>
+      <canvas id="city" aria-hidden="true"></canvas>
+      <div class="hero-body">
+        <h1 id="hero-title" class="hero-logo"><span>CRM</span><b>RP</b></h1>
+        <p class="hero-lead">Ролевой сервер GTA San Andreas в Multi Theft Auto. Устройся на работу, вступи во фракцию, построй свою историю в ночном городе.</p>
+        <div class="hero-actions">
+          <a class="btn" data-download href="#start">Скачать лаунчер</a>
+          <a class="btn btn-ghost" href="#start">Как начать играть</a>
+        </div>
+        <p class="hero-meta" data-size-note>Для Windows 10 и 11. Лаунчер сам скачает и установит игру.</p>
+      </div>
+    </section>
+
+    <section id="start" class="start" aria-labelledby="start-title">
+      <h2 id="start-title">Как начать играть</h2>
+      <ol class="steps">
+        <li>
+          <h3>Скачай лаунчер</h3>
+          <p data-step1>Установщик весит около 100 МБ. GTA и MTA отдельно ставить не нужно.</p>
+        </li>
+        <li>
+          <h3>Выбери, куда установить</h3>
+          <p data-step2>Лаунчер создаст папку «CRM RP» и скачает туда игру. Если интернет оборвётся, загрузка продолжится с места остановки.</p>
+        </li>
+        <li>
+          <h3>Нажми «Играть»</h3>
+          <p>Лаунчер обновит файлы сервера, запустит игру и сам подключит тебя к серверу.</p>
+        </li>
+      </ol>
+    </section>
+
+    <section id="servers" class="servers" aria-labelledby="servers-title">
+      <div class="servers-head">
+        <h2 id="servers-title">Серверы</h2>
+        <p>Сервер выбирается в лаунчере, подключение происходит само по кнопке «Играть».</p>
+      </div>
+      <ul class="server-list" data-servers></ul>
+    </section>
+
+    <section id="community" class="community" aria-labelledby="community-title">
+      <div class="forum-card">
+        <h2 id="community-title">Форум</h2>
+        <p data-forum-text>Форум откроется вместе с сервером. Там будут правила, заявки во фракции и жалобы.</p>
+        <a class="btn btn-ghost" data-forum-btn hidden>Открыть форум</a>
+      </div>
+      <div class="socials">
+        <h2>Мы в соцсетях</h2>
+        <ul class="social-list" data-socials></ul>
+      </div>
+    </section>
+  </main>
+
+  <footer class="foot">
+    <a class="logo logo-small" href="#" aria-label="CRM RP, наверх"><span>CRM</span><b>RP</b></a>
+    <p>Фанатский проект на Multi Theft Auto. Не связан с Rockstar Games и Take-Two Interactive.</p>
+  </footer>
+
+  <script src="assets/city.js"></script>
+  <script src="assets/site.js"></script>
+</body>
+</html>
