@@ -4,9 +4,9 @@
  */
 window.CRM_SITE = {
   // прямая ссылка на установщик лаунчера (появится, когда соберём и зальём лаунчер)
-  download: 'https://github.com/yolterfamq/crmrp-client/releases/download/launcher/CRM-RP-Launcher-Setup.exe',
+  download: 'https://github.com/yolterfamq/crmrp-client/releases/download/launcher/CRM-RP-Setup.exe',
   // вес установщика, показывается под кнопкой
-  downloadSize: '≈ 100 МБ',
+  downloadSize: '≈ 8 МБ',
   // сколько весит игра после установки
   gameSize: '≈ 14 ГБ',
 
