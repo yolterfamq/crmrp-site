@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>CRM RP — ролевой сервер MTA:SA</title>
-  <meta name="description" content="CRM RP — ролевой сервер GTA San Andreas в Multi Theft Auto. Скачай лаунчер, он сам установит игру.">
+  <meta name="description" content="CRM RP — лучшая копия CRM RP в Multi Theft Auto. Скачай лаунчер, он сам установит игру.">
   <meta name="theme-color" content="#100c16">
   <link rel="icon" href="assets/icon.png">
   <link rel="stylesheet" href="assets/style.css">
@@ -12,13 +12,14 @@
 </head>
 <body>
   <header class="top">
-    <a class="logo" href="#" aria-label="CRM RP, на главную"><span>CRM</span><b>RP</b></a>
+    <a class="logo" href="index.html" aria-label="CRM RP, на главную"><span>CRM</span><b>RP</b></a>
     <nav class="nav" aria-label="Разделы">
       <a href="#start">Как начать</a>
       <a href="#servers">Серверы</a>
+      <a href="donate.html">Пополнение</a>
       <a href="#community" data-forum-link>Форум</a>
     </nav>
-    <a class="btn btn-small" data-download href="#start">Играть</a>
+    <a class="btn btn-small" href="#start" data-to-start>Играть</a>
   </header>
 
   <main>
@@ -27,21 +28,34 @@
       <canvas id="city" aria-hidden="true"></canvas>
       <div class="hero-body">
         <h1 id="hero-title" class="hero-logo"><span>CRM</span><b>RP</b></h1>
-        <p class="hero-lead">Ролевой сервер GTA San Andreas в Multi Theft Auto. Устройся на работу, вступи во фракцию, построй свою историю в ночном городе.</p>
+        <p class="hero-lead">Лучшая копия CRM RP ждёт тебя.</p>
+        <p class="hero-must">Перед установкой обязательно прочитай, как установить игру</p>
         <div class="hero-actions">
-          <a class="btn" data-download href="#start">Скачать лаунчер</a>
-          <a class="btn btn-ghost" href="#start">Как начать играть</a>
+          <a class="btn" href="#start" data-to-start>Играть</a>
+          <a class="btn btn-ghost" href="#start" data-to-start>Как начать играть</a>
         </div>
-        <p class="hero-meta" data-size-note>Для Windows 10 и 11. Лаунчер сам скачает и установит игру.</p>
       </div>
     </section>
 
     <section id="start" class="start" aria-labelledby="start-title">
       <h2 id="start-title">Как начать играть</h2>
-      <ol class="steps">
+
+      <div class="av-warn" role="note">
+        <div class="av-num">1</div>
+        <div class="av-body">
+          <h3>Сначала полностью отключи антивирус</h3>
+          <p><b>Защитник Windows и любой другой антивирус</b> (Касперский, Avast, ESET и другие) — на время установки и игры.
+             Иначе он удалит файлы игры, и она не запустится.</p>
+          <p class="av-how">Защитник Windows: Пуск → «Безопасность Windows» → Защита от вирусов и угроз →
+             Управление настройками → выключи <b>«Защита в реальном времени»</b>.</p>
+        </div>
+      </div>
+
+      <ol class="steps" start="2">
         <li>
           <h3>Скачай лаунчер</h3>
-          <p data-step1>Установщик весит около 100 МБ. GTA и MTA отдельно ставить не нужно.</p>
+          <p data-step1>Установщик весит около 8 МБ. GTA и MTA отдельно ставить не нужно.
+             Если Windows скажет «Система Windows защитила ваш компьютер» — «Подробнее» → «Выполнить в любом случае».</p>
         </li>
         <li>
           <h3>Выбери, куда установить</h3>
@@ -52,6 +66,11 @@
           <p>Лаунчер обновит файлы сервера, запустит игру и сам подключит тебя к серверу.</p>
         </li>
       </ol>
+
+      <div class="start-cta">
+        <a class="btn btn-big" data-download href="#start">Скачать лаунчер</a>
+        <p class="hero-meta" data-size-note>Для Windows 10 и 11. Лаунчер сам скачает и установит игру.</p>
+      </div>
     </section>
 
     <section id="servers" class="servers" aria-labelledby="servers-title">
@@ -76,8 +95,8 @@
   </main>
 
   <footer class="foot">
-    <a class="logo logo-small" href="#" aria-label="CRM RP, наверх"><span>CRM</span><b>RP</b></a>
-    <p>Фанатский проект на Multi Theft Auto. Не связан с Rockstar Games и Take-Two Interactive.</p>
+    <a class="logo logo-small" href="index.html" aria-label="CRM RP, наверх"><span>CRM</span><b>RP</b></a>
+    <p data-version></p>
   </footer>
 
   <script src="assets/city.js"></script>

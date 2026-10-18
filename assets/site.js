@@ -14,26 +14,38 @@
   if (C.download) {
     $$('[data-download]').forEach((a) => { a.href = C.download; a.setAttribute('download', ''); });
   }
-  if (C.downloadSize || C.gameSize) {
-    const s1 = $('[data-step1]');
-    if (s1 && C.downloadSize) s1.textContent = `Установщик весит ${C.downloadSize.replace('≈', 'около')}. GTA и MTA отдельно ставить не нужно.`;
+  if (C.gameSize) {
     const s2 = $('[data-step2]');
-    if (s2 && C.gameSize) s2.textContent = `Лаунчер создаст папку «CRM RP» и скачает туда игру (${C.gameSize.replace('≈', 'около')}). Если интернет оборвётся, загрузка продолжится с места остановки.`;
+    if (s2) s2.textContent = `Лаунчер создаст папку «CRM RP» и скачает туда игру (${C.gameSize.replace('≈', 'около')}). Если интернет оборвётся, загрузка продолжится с места остановки.`;
   }
+
+  // «Играть» и «Как начать играть» ведут к инструкции, а предупреждение про антивирус мигает
+  $$('[data-to-start]').forEach((a) => a.addEventListener('click', (e) => {
+    const start = $('#start');
+    if (!start) return;
+    e.preventDefault();
+    start.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+    const w = $('.av-warn');
+    if (w) { w.classList.remove('flash'); void w.offsetWidth; setTimeout(() => w.classList.add('flash'), 450); }
+  }));
+
+  // версия лаунчера в подвале
+  $$('[data-version]').forEach((el) => { el.textContent = C.launcherVersion || ''; });
 
   // форум
   if (C.forum) {
     $$('[data-forum-link]').forEach((a) => { a.href = C.forum; });
-    $('[data-forum-text]').textContent = 'Правила сервера, заявки во фракции, жалобы и предложения.';
+    const ft = $('[data-forum-text]');
+    if (ft) ft.textContent = 'Правила сервера, заявки во фракции, жалобы и предложения.';
     const b = $('[data-forum-btn]');
-    b.href = C.forum; b.hidden = false;
+    if (b) { b.href = C.forum; b.hidden = false; }
   }
 
   // соцсети
   const socials = [['discord', 'Discord'], ['vk', 'ВКонтакте'], ['telegram', 'Telegram'], ['youtube', 'YouTube']];
   const ul = $('[data-socials]');
   const have = socials.filter(([k]) => C[k]);
-  if (have.length) {
+  if (!ul) { /* на этой странице нет блока соцсетей */ } else if (have.length) {
     for (const [k, name] of have) {
       const li = document.createElement('li');
       const a = document.createElement('a');
@@ -47,7 +59,7 @@
   }
 
   // серверы: только название и статус, без IP
-  const list = $('[data-servers]');
+  const list = $('[data-servers]') || document.createElement('ul');
   const NOTE = { open: 'Работает', soon: 'Открытие скоро', later: 'Позже' };
   for (const s of C.servers || []) {
     const st = NOTE[s.status] ? s.status : 'soon';

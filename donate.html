@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Пополнение — CRM RP</title>
+  <meta name="description" content="Пополнение CRM RP: админки, машины, скины, аксессуары и другое.">
+  <meta name="theme-color" content="#100c16">
+  <link rel="icon" href="assets/icon.png">
+  <link rel="stylesheet" href="assets/style.css">
+  <script src="assets/site.config.js"></script>
+</head>
+<body class="page">
+  <header class="top scrolled">
+    <a class="logo" href="index.html" aria-label="CRM RP, на главную"><span>CRM</span><b>RP</b></a>
+    <nav class="nav" aria-label="Разделы">
+      <a href="index.html#start">Как начать</a>
+      <a href="index.html#servers">Серверы</a>
+      <a href="donate.html" aria-current="page">Пополнение</a>
+      <a href="index.html#community" data-forum-link>Форум</a>
+    </nav>
+    <a class="btn btn-small" href="index.html#start">Играть</a>
+  </header>
+
+  <main class="donate">
+    <div class="donate-head">
+      <h1>Пополнение</h1>
+      <p>Впиши свой ник в игре и выбери, что хочешь получить.</p>
+      <label class="nick">
+        <span>Ник в игре</span>
+        <input id="nick" type="text" maxlength="32" autocomplete="nickname" placeholder="Например: Ivan_Petrov">
+      </label>
+    </div>
+    <div data-shop></div>
+  </main>
+
+  <div class="modal" id="buy" hidden>
+    <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="buy-title">
+      <h2 id="buy-title">Покупка</h2>
+      <p data-buy-text></p>
+      <div class="modal-actions">
+        <a class="btn" data-buy-discord target="_blank" rel="noopener">Написать в поддержку</a>
+        <button class="btn btn-ghost" type="button" data-buy-close>Закрыть</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="foot">
+    <a class="logo logo-small" href="index.html" aria-label="CRM RP, на главную"><span>CRM</span><b>RP</b></a>
+    <p data-version></p>
+  </footer>
+
+  <script src="assets/site.js"></script>
+  <script src="assets/donate.js"></script>
+</body>
+</html>
