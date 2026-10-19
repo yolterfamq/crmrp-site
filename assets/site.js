@@ -29,6 +29,10 @@
     if (w) { w.classList.remove('flash'); void w.offsetWidth; setTimeout(() => w.classList.add('flash'), 450); }
   }));
 
+  // тексты из настроек (**слово** = жирным)
+  const fmt = (t) => String(t).replace(/[&<>"]/g, (ch) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[ch])).replace(/\*\*(.+?)\*\*/g, '<b>$1</b>');
+  $$('[data-text]').forEach((el) => { const t = (C.texts || {})[el.dataset.text]; if (t) el.innerHTML = fmt(t); });
+
   // версия лаунчера в подвале
   $$('[data-version]').forEach((el) => { el.textContent = C.launcherVersion || ''; });
 

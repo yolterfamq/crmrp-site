@@ -20,7 +20,9 @@
       const card = document.createElement('article');
       card.className = 'product' + (it.icon ? '' : ' product-admin');
       card.innerHTML = '<div class="p-icon" aria-hidden="true"></div><h3></h3><p class="p-desc"></p><div class="p-foot"><b class="p-price"></b><button class="btn btn-small" type="button">Купить</button></div>';
-      card.querySelector('.p-icon').textContent = it.icon || '🛡️';
+      const ic = card.querySelector('.p-icon');
+      if (it.image) { const img = document.createElement('img'); img.src = it.image; img.alt = ''; ic.append(img); ic.classList.add('has-img'); }
+      else ic.textContent = it.icon || '🛡️';
       card.querySelector('h3').textContent = it.name;
       card.querySelector('.p-desc').textContent = it.desc || (it.icon ? '' : 'Админка на сервере CRM RP');
       card.querySelector('.p-price').textContent = price(it.price);
