@@ -24,8 +24,8 @@ window.CRM_SITE = {
       "items": [
         {
           "name": "Камхак",
-          "icon": "⭐",
-          "price": 25,
+          "icon": "",
+          "price": 0,
           "desc": ""
         },
         {
