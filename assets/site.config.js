@@ -23,6 +23,12 @@ window.CRM_SITE = {
       "group": "Админки",
       "items": [
         {
+          "name": "Камхак",
+          "icon": "⭐",
+          "price": 25,
+          "desc": ""
+        },
+        {
           "name": "Стажёр",
           "price": 0
         },
