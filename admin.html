@@ -16,6 +16,12 @@
     <div class="adm-card">
       <a class="logo" href="index.html"><span>CRM</span><b>RP</b></a>
       <h1>Админка сайта</h1>
+      <div id="pw-login" hidden>
+        <p>Войди под своим админским логином.</p>
+        <label class="fld"><span>Логин</span><input id="alogin" autocomplete="username"></label>
+        <label class="fld"><span>Пароль</span><input id="apass" type="password" autocomplete="current-password"></label>
+      </div>
+      <div id="tok-login">
       <p>Вставь ключ доступа GitHub. Он хранится только в этом браузере.</p>
       <label class="fld"><span>Ключ доступа</span><input id="tok" type="password" autocomplete="off" placeholder="github_pat_..."></label>
       <label class="chk"><input id="remember" type="checkbox" checked> Запомнить на этом компьютере</label>
@@ -31,6 +37,7 @@
           <li><b>Generate token</b> → скопируй ключ и вставь сюда. Никому его не показывай.</li>
         </ol>
       </details>
+      </div>
     </div>
   </section>
 

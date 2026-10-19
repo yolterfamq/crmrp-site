@@ -18,6 +18,9 @@
 
   const $ = (s, r = document) => r.querySelector(s);
   let token = '';
+  // на своём сервере (crmrp.dpdns.org) — вход логином и паролем, ключ GitHub хранит сервер.
+  // на github.io — по-старому, ключом GitHub.
+  const PROXY = location.protocol === 'https:' && !/github\.io$/i.test(location.hostname);
   const loaded = {};      // path -> { text, sha }
   const D = {};           // данные для редактирования
   const pendingImg = {};  // path -> { b64, url }
@@ -26,12 +29,20 @@
 
   /* ---------- GitHub ---------- */
   async function gh(path, opts = {}) {
-    const r = await fetch(`https://api.github.com${path}`, {
+    const r = await fetch(PROXY ? `/admin-api/gh${path}` : `https://api.github.com${path}`, {
       ...opts,
-      headers: { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28', ...(opts.headers || {}) },
+      headers: PROXY
+        ? { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json', ...(opts.headers || {}) }
+        : { Accept: 'application/vnd.github+json', Authorization: `Bearer ${token}`, 'X-GitHub-Api-Version': '2022-11-28', ...(opts.headers || {}) },
     });
     if (!r.ok) {
       let msg = `GitHub ответил ${r.status}`;
+      if (PROXY) {
+        let j = {}; try { j = await r.clone().json(); } catch { /* не json */ }
+        if (r.status === 401) msg = 'Нужно войти заново';
+        else if (j.error) msg = j.error;
+        if (r.status === 401 || j.error) { const e = new Error(msg); e.status = r.status; throw e; }
+      }
       if (r.status === 401) msg = 'Ключ не подходит или устарел';
       if (r.status === 403 || r.status === 404) msg = 'У ключа нет доступа к репозиторию crmrp-site (проверь права Contents: Read and write)';
       if (r.status === 409) msg = 'Файл на сайте только что изменился. Обнови страницу и повтори.';
@@ -61,10 +72,11 @@
 
   /* ---------- вход ---------- */
   function store() { try { return localStorage; } catch { return null; } }
+  const KEY = PROXY ? 'crm.admin.session' : 'crm.admin.token';
   async function login(t, remember) {
     token = t.trim();
     await gh(`/repos/${REPO}`);
-    if (remember && store()) store().setItem('crm.admin.token', token); else if (store()) store().removeItem('crm.admin.token');
+    if (remember && store()) store().setItem(KEY, token); else if (store()) store().removeItem(KEY);
     $('#login').hidden = true;
     $('#app').hidden = false;
     await loadAll();
@@ -72,10 +84,23 @@
   $('#go').onclick = async () => {
     $('#login-err').textContent = '';
     $('#go').disabled = true;
-    try { await login($('#tok').value, $('#remember').checked); } catch (e) { $('#login-err').textContent = e.message; } finally { $('#go').disabled = false; }
+    try {
+      if (PROXY) {
+        const r = await fetch('/admin-api/login', { method: 'POST', headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ login: $('#alogin').value, password: $('#apass').value }) });
+        const j = await r.json().catch(() => ({}));
+        if (!r.ok || !j.token) throw new Error(j.error || `Сервер ответил ${r.status}`);
+        await login(j.token, $('#remember').checked);
+      } else await login($('#tok').value, $('#remember').checked);
+    } catch (e) { $('#login-err').textContent = e.message; } finally { $('#go').disabled = false; }
   };
-  $('#tok').addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#go').click(); });
-  $('#logout').onclick = () => { if (dirty && !confirm('Есть несохранённые изменения. Выйти?')) return; store() && store().removeItem('crm.admin.token'); location.reload(); };
+  for (const id of ['#tok', '#alogin', '#apass']) $(id).addEventListener('keydown', (e) => { if (e.key === 'Enter') $('#go').click(); });
+  if (PROXY) { $('#pw-login').hidden = false; $('#tok-login').hidden = true; }
+  $('#logout').onclick = () => {
+    if (dirty && !confirm('Есть несохранённые изменения. Выйти?')) return;
+    if (PROXY && token) fetch('/admin-api/logout', { method: 'POST', headers: { Authorization: `Bearer ${token}` } }).catch(() => {});
+    store() && store().removeItem(KEY); location.reload();
+  };
 
   async function loadAll() {
     $('#view').textContent = 'Загружаю...';
@@ -325,7 +350,7 @@
   }
 
   /* ---------- старт ---------- */
-  const saved = store() && store().getItem('crm.admin.token');
+  const saved = store() && store().getItem(KEY);
   if (saved) {
     login(saved, true).catch((e) => { $('#login').hidden = false; $('#login-err').textContent = e.message; });
   } else {
