@@ -4,7 +4,7 @@
 window.CRM_SITE = {
   "download": "https://github.com/yolterfamq/crmrp-client/releases/download/launcher/CRM-RP-Setup.exe",
   "downloadSize": "≈ 8 МБ",
-  "launcherVersion": "1.0.4",
+  "launcherVersion": "1.0.5",
   "texts": {
     "heroLead": "Лучшая копия CRM RP ждёт тебя.",
     "heroMust": "Перед установкой обязательно прочитай, как установить игру",
