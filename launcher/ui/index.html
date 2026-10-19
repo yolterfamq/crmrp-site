@@ -1,0 +1,265 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self' data: http: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; script-src 'self'; connect-src 'none'">
+<title>CRM RP</title>
+<link rel="stylesheet" href="assets/fonts/fonts.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body class="screen-splash">
+<div class="app">
+  <!-- фон: ночной город и надпись CRM -->
+  <div class="scene" aria-hidden="true">
+    <canvas id="sky"></canvas>
+    <div class="bigword">CRM</div>
+    <canvas id="city"></canvas>
+    <div class="bg-photo"></div>
+    <div class="haze"></div>
+    <div class="grain"></div>
+  </div>
+
+  <!-- полоса окна (видна на всех экранах) -->
+  <header class="titlebar">
+    <div class="logo">CRM<b>RP</b></div>
+    <nav class="links main-only">
+      <button data-link="site">Сайт</button>
+      <button data-link="forum">Форум</button>
+      <button data-link="donate">Пополнение</button>
+    </nav>
+    <div class="right">
+      <div class="main-only bell-wrap">
+        <button class="ib" id="btn-bell" aria-label="Уведомления"><svg class="i"><use href="#i-bell"/></svg><i class="dotn" id="bell-dot" hidden></i></button>
+        <div class="drop" id="drop-bell" hidden>
+          <div class="drop-head">Уведомления</div>
+          <ul id="notif-list" class="notif-list"></ul>
+        </div>
+      </div>
+      <div class="main-only prof-wrap">
+        <button class="prof" id="btn-prof"><span class="ava" id="ava">?</span><span class="prof-name"><span id="prof-login">—</span><small id="prof-id"></small></span><svg class="i s14"><use href="#i-chev"/></svg></button>
+        <div class="drop prof-drop" id="drop-prof" hidden>
+          <div class="drop-user"><span class="ava big" id="ava2">?</span><div><b id="prof-login2"></b><small id="prof-email"></small></div></div>
+          <button data-act="settings"><svg class="i"><use href="#i-gear"/></svg>Настройки</button>
+          <button data-act="verify"><svg class="i"><use href="#i-refresh"/></svg>Проверить файлы</button>
+          <button data-act="logout"><svg class="i"><use href="#i-exit"/></svg>Выйти</button>
+        </div>
+      </div>
+      <button class="ib" id="btn-min" aria-label="Свернуть"><svg class="i s16"><use href="#i-min"/></svg></button>
+      <button class="ib close" id="btn-close" aria-label="Закрыть"><svg class="i s16"><use href="#i-x"/></svg></button>
+    </div>
+  </header>
+
+  <!-- заставка -->
+  <section class="splash" id="splash">
+    <div class="splash-logo">CRM<b>RP</b></div>
+    <div class="splash-load"><span class="spin"></span><span id="splash-text">Загрузка лаунчера…</span></div>
+  </section>
+
+  <!-- вход / регистрация -->
+  <section class="auth" id="auth" hidden>
+    <div class="auth-card">
+      <div class="auth-logo">CRM<b>RP</b></div>
+      <p class="auth-sub" id="auth-sub">Войди один раз — дальше лаунчер запомнит тебя</p>
+
+      <div class="tabs" id="auth-tabs">
+        <button data-tab="login" class="on">Вход</button>
+        <button data-tab="register">Регистрация</button>
+      </div>
+
+      <form class="form" id="f-login" data-form="login" novalidate>
+        <label class="f"><span>Логин или почта</span><span class="inp"><svg class="i s16"><use href="#i-user"/></svg><input name="login" autocomplete="username" maxlength="64"></span><em data-err="login"></em></label>
+        <label class="f"><span>Пароль <a href="#" data-go="forgot">Забыли пароль?</a></span><span class="inp"><svg class="i s16"><use href="#i-lock"/></svg><input name="password" type="password" autocomplete="current-password" maxlength="128"></span><em data-err="password"></em></label>
+        <p class="form-err" data-err="_"></p>
+        <button class="btn-main" type="submit">Войти</button>
+      </form>
+
+      <form class="form" id="f-register" data-form="register" hidden novalidate>
+        <label class="f"><span>Логин</span><span class="inp"><svg class="i s16"><use href="#i-user"/></svg><input name="login" autocomplete="username" maxlength="20" placeholder="Латиница, цифры и _"></span><em data-err="login"></em></label>
+        <label class="f"><span>Почта</span><span class="inp"><svg class="i s16"><use href="#i-mail"/></svg><input name="email" type="email" autocomplete="email" maxlength="100" placeholder="Для восстановления пароля"></span><em data-err="email"></em></label>
+        <label class="f"><span>Пароль</span><span class="inp"><svg class="i s16"><use href="#i-lock"/></svg><input name="password" type="password" autocomplete="new-password" maxlength="128" placeholder="Минимум 6 символов"></span><em data-err="password"></em></label>
+        <label class="f"><span>Повтори пароль</span><span class="inp"><svg class="i s16"><use href="#i-lock"/></svg><input name="password2" type="password" autocomplete="new-password" maxlength="128"></span><em data-err="password2"></em></label>
+        <p class="form-err" data-err="_"></p>
+        <button class="btn-main" type="submit">Создать аккаунт</button>
+        <p class="legal">Создавая аккаунт, ты принимаешь правила проекта</p>
+      </form>
+
+      <form class="form" id="f-2fa" data-form="2fa" hidden novalidate>
+        <p class="form-note">Открой приложение-аутентификатор и введи 6 цифр для CRM RP.</p>
+        <label class="f"><span>Код подтверждения</span><span class="inp"><svg class="i s16"><use href="#i-shield"/></svg><input name="code" inputmode="numeric" maxlength="6" autocomplete="one-time-code" class="code-inp"></span><em data-err="code"></em></label>
+        <p class="form-err" data-err="_"></p>
+        <button class="btn-main" type="submit">Подтвердить</button>
+        <button class="btn-link" type="button" data-go="login">Назад ко входу</button>
+      </form>
+
+      <form class="form" id="f-forgot" data-form="forgot" hidden novalidate>
+        <p class="form-note" id="forgot-note">Укажи логин или почту — пришлём код для смены пароля.</p>
+        <label class="f"><span>Логин или почта</span><span class="inp"><svg class="i s16"><use href="#i-user"/></svg><input name="login" maxlength="64"></span><em data-err="login"></em></label>
+        <div id="forgot-step2" hidden>
+          <label class="f"><span>Код из письма</span><span class="inp"><svg class="i s16"><use href="#i-mail"/></svg><input name="code" inputmode="numeric" maxlength="6" class="code-inp"></span><em data-err="code"></em></label>
+          <label class="f"><span>Новый пароль</span><span class="inp"><svg class="i s16"><use href="#i-lock"/></svg><input name="password" type="password" autocomplete="new-password" maxlength="128"></span><em data-err="password"></em></label>
+        </div>
+        <p class="form-err" data-err="_"></p>
+        <button class="btn-main" type="submit" id="forgot-btn">Отправить код</button>
+        <button class="btn-link" type="button" data-go="login">Назад ко входу</button>
+      </form>
+
+      <div class="or">вход через соцсети — скоро</div>
+      <div class="soc">
+        <span><svg class="i s16"><use href="#i-tg"/></svg>Telegram</span>
+        <span><svg class="i s16"><use href="#i-vk"/></svg>ВКонтакте</span>
+        <span><svg class="i s16"><use href="#i-ds"/></svg>Discord</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- главный экран -->
+  <aside class="side main-only">
+    <div class="side-head"><span>Серверы</span><b id="online-total">—</b></div>
+    <div id="server-list"></div>
+    <div class="last" id="last-server" hidden><svg class="i s14"><use href="#i-clock"/></svg><span></span></div>
+    <div class="socials">
+      <button class="ib" data-link="vk" aria-label="ВКонтакте"><svg class="i"><use href="#i-vk"/></svg></button>
+      <button class="ib" data-link="discord" aria-label="Discord"><svg class="i"><use href="#i-ds"/></svg></button>
+      <button class="ib" data-link="telegram" aria-label="Telegram"><svg class="i"><use href="#i-tg"/></svg></button>
+      <button class="ib" data-link="youtube" aria-label="YouTube"><svg class="i"><use href="#i-yt"/></svg></button>
+    </div>
+    <div class="ver" id="ver"></div>
+  </aside>
+
+  <main class="main main-only">
+    <div class="head">
+      <h1 id="srv-title">CRM RP #1</h1>
+      <span class="chip" id="srv-online">Нет данных</span>
+      <span class="chip" id="srv-ping" hidden></span>
+    </div>
+    <p class="notice" id="notice" hidden></p>
+    <div class="spacer"></div>
+    <div class="news-head"><b>Последние обновления</b><button class="btn-link" data-link="news">Все новости</button></div>
+    <div class="news" id="news"></div>
+    <footer class="dock">
+      <div class="prog">
+        <div class="ph"><b id="p-title">Подготовка</b><span id="p-stats"></span></div>
+        <div class="bar" id="bar"><i id="fill"></i></div>
+        <div class="pf">
+          <label class="chk"><input type="checkbox" id="chk-autolaunch"><i></i>Запустить игру после установки</label>
+          <span id="p-file"></span>
+          <button class="gh" id="btn-pause" hidden>Пауза</button>
+        </div>
+      </div>
+      <button class="play" id="btn-play" disabled><span>Загрузка</span></button>
+    </footer>
+  </main>
+
+  <!-- выбор пути установки -->
+  <dialog class="modal" id="dlg-install">
+    <div class="modal-head"><h2>Выбор пути установки игры</h2><button class="ib" data-close aria-label="Закрыть"><svg class="i s16"><use href="#i-x"/></svg></button></div>
+    <div class="modal-body">
+      <p class="muted">Выбери диск, на который будет установлена игра, или укажи папку сам.</p>
+      <div class="disks" id="disks"></div>
+      <div class="pathrow"><input id="install-path" readonly><button class="gh" id="btn-browse">Изменить</button></div>
+      <p class="need">Нужно места на диске: <b id="need-space">≈ 18 ГБ</b></p>
+      <p class="form-err" id="install-err"></p>
+      <button class="btn-main" id="btn-install-go" autofocus>Продолжить установку</button>
+      <p class="warn">Будь внимателен при выборе диска — игра занимает много места.</p>
+    </div>
+  </dialog>
+
+  <!-- настройки -->
+  <dialog class="modal settings" id="dlg-settings">
+    <div class="modal-head"><h2><svg class="i"><use href="#i-gear"/></svg>Настройки</h2><button class="ib" data-close aria-label="Закрыть"><svg class="i s16"><use href="#i-x"/></svg></button></div>
+    <div class="set-wrap">
+      <nav class="set-tabs" id="set-tabs">
+        <button data-stab="main" class="on">Основные</button>
+        <button data-stab="social">Социальные аккаунты</button>
+        <button data-stab="security">Безопасность<i class="warn-dot" id="sec-dot" hidden>!</i></button>
+        <button data-stab="preload">Предзагрузка</button>
+        <div class="set-foot" id="set-ver"></div>
+      </nav>
+      <div class="set-body">
+        <section data-spane="main">
+          <h3>Путь установки</h3>
+          <div class="pathrow"><input id="set-path" readonly placeholder="Игра ещё не установлена"><button class="gh" id="set-path-change">Изменить</button></div>
+          <label class="tg"><input type="checkbox" data-set="notifications"><i></i>Получать уведомления</label>
+          <label class="tg"><input type="checkbox" data-set="launchAfterInstall"><i></i>Запускать игру после установки</label>
+          <h3>Файлы игры</h3>
+          <div class="set-row"><div><b>Проверить файлы</b><small>Пересчитать все файлы и докачать повреждённые. Займёт несколько минут.</small></div><button class="gh" id="set-verify">Проверить</button></div>
+          <div class="set-row"><div><b>Папка игры</b><small id="set-path2"></small></div><button class="gh" id="set-open">Открыть</button></div>
+        </section>
+        <section data-spane="social" hidden>
+          <h3>Социальные аккаунты профиля</h3>
+          <div class="set-row"><div class="soc-name"><svg class="i"><use href="#i-tg"/></svg>Telegram</div><button class="gh" disabled>Скоро</button></div>
+          <div class="set-row"><div class="soc-name"><svg class="i"><use href="#i-ds"/></svg>Discord</div><button class="gh" disabled>Скоро</button></div>
+          <div class="set-row"><div class="soc-name"><svg class="i"><use href="#i-vk"/></svg>ВКонтакте</div><button class="gh" disabled>Скоро</button></div>
+        </section>
+        <section data-spane="security" hidden>
+          <h3>Безопасность аккаунта</h3>
+          <div class="set-row"><div><b id="tfa-title">Двухфакторная аутентификация</b><small id="tfa-sub">Код из приложения при каждом входе с нового компьютера</small></div><button class="gh" id="tfa-btn">Включить</button></div>
+          <div class="sub-form" id="tfa-setup" hidden>
+            <div class="qr-row">
+              <img id="tfa-qr" alt="QR-код для приложения-аутентификатора">
+              <div>
+                <p>1. Установи Google Authenticator или Яндекс Ключ.</p>
+                <p>2. Отсканируй QR-код или введи ключ вручную:</p>
+                <code id="tfa-secret"></code>
+                <p>3. Введи 6 цифр из приложения:</p>
+                <div class="pathrow"><input id="tfa-code" inputmode="numeric" maxlength="6" class="code-inp" placeholder="000000"><button class="gh" id="tfa-confirm">Подтвердить</button></div>
+                <p class="form-err" id="tfa-err"></p>
+              </div>
+            </div>
+          </div>
+          <div class="sub-form" id="tfa-off" hidden>
+            <p>Чтобы отключить защиту, введи код из приложения:</p>
+            <div class="pathrow"><input id="tfa-off-code" inputmode="numeric" maxlength="6" class="code-inp" placeholder="000000"><button class="gh" id="tfa-off-confirm">Отключить</button></div>
+            <p class="form-err" id="tfa-off-err"></p>
+          </div>
+          <h3>Электронная почта</h3>
+          <div class="set-row"><div><b id="sec-email"></b></div><button class="gh" data-toggle="email-form">Изменить</button></div>
+          <div class="sub-form" id="email-form" hidden>
+            <div class="pathrow"><input id="em-new" type="email" placeholder="Новая почта"><input id="em-pw" type="password" placeholder="Текущий пароль"><button class="gh" id="em-save">Сохранить</button></div>
+            <p class="form-err" id="em-err"></p>
+          </div>
+          <h3>Пароль</h3>
+          <div class="set-row"><div><b>••••••••••</b></div><button class="gh" data-toggle="pw-form">Изменить</button></div>
+          <div class="sub-form" id="pw-form" hidden>
+            <div class="pathrow"><input id="pw-old" type="password" placeholder="Текущий пароль"><input id="pw-new" type="password" placeholder="Новый пароль"><button class="gh" id="pw-save">Сохранить</button></div>
+            <p class="form-err" id="pw-err"></p>
+          </div>
+        </section>
+        <section data-spane="preload" hidden>
+          <h3>Предзагрузка</h3>
+          <label class="tg"><input type="checkbox" data-set="preload"><i></i>Предзагрузка файлов игры</label>
+          <p class="muted">Лаунчер заранее скачает файлы следующего обновления. Когда оно выйдет, они просто встанут на место — и ты быстрее зайдёшь в игру.</p>
+          <label class="tg"><input type="checkbox" data-set="preloadInGame"><i></i>Выполнять предзагрузку во время игры</label>
+          <p class="pre-state" id="pre-state"></p>
+        </section>
+      </div>
+    </div>
+  </dialog>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</div>
+
+<!-- иконки -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-bell" viewBox="0 0 24 24"><path d="M6 8a6 6 0 0 1 12 0c0 7 3 9 3 9H3s3-2 3-9"/><path d="M10.3 21a1.94 1.94 0 0 0 3.4 0"/></symbol>
+  <symbol id="i-min" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18"/></symbol>
+  <symbol id="i-chev" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></symbol>
+  <symbol id="i-clock" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></symbol>
+  <symbol id="i-gear" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/></symbol>
+  <symbol id="i-refresh" viewBox="0 0 24 24"><path d="M21 12a9 9 0 1 1-3-6.7L21 8"/><path d="M21 3v5h-5"/></symbol>
+  <symbol id="i-exit" viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><path d="M16 17l5-5-5-5M21 12H9"/></symbol>
+  <symbol id="i-user" viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-4 4-6 8-6s7 2 8 6"/></symbol>
+  <symbol id="i-lock" viewBox="0 0 24 24"><rect x="5" y="11" width="14" height="10" rx="1"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></symbol>
+  <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="1"/><path d="M3 7l9 6 9-6"/></symbol>
+  <symbol id="i-shield" viewBox="0 0 24 24"><path d="M12 3l8 3v6c0 5-3.5 8-8 9-4.5-1-8-4-8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+  <symbol id="i-tg" viewBox="0 0 24 24"><path d="M21 4L3 11l6 2 2 6 3-4 5 4z"/><path d="M9 13l12-9"/></symbol>
+  <symbol id="i-vk" viewBox="0 0 24 24"><path d="M3 7c1 5 4 10 9 10h1v-3c2 0 3 2 4 3h3c-1-2-3-4-4-5 1-1 3-3 4-5h-3c-1 2-2 4-4 4V7h-3v6c-2 0-4-3-4-6z"/></symbol>
+  <symbol id="i-ds" viewBox="0 0 24 24"><path d="M8 7c2-1 6-1 8 0l2 9c-2 2-4 2-5 2l-1-2-1 2c-1 0-3 0-5-2z"/><circle cx="10" cy="12" r="1"/><circle cx="14" cy="12" r="1"/></symbol>
+  <symbol id="i-yt" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="3"/><path d="M10 9.5v5l4-2.5z"/></symbol>
+  <symbol id="i-disk" viewBox="0 0 24 24"><rect x="3" y="6" width="18" height="12" rx="2"/><path d="M7 14h.01M11 14h6"/></symbol>
+</svg>
+<script src="scene.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

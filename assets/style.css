@@ -25,7 +25,7 @@
 
 * { box-sizing: border-box; }
 [hidden] { display: none !important; }
-html { scroll-behavior: smooth; scroll-padding-top: 80px; }
+html { scroll-behavior: smooth; scroll-padding-top: 110px; }
 body { margin: 0; background: var(--bg); color: var(--text); font: 400 17px/1.6 var(--body); -webkit-font-smoothing: antialiased; }
 a { color: inherit; }
 h1, h2, h3 { font-family: var(--display); font-weight: 600; line-height: 1.1; margin: 0; }
@@ -166,9 +166,13 @@ p { margin: 0; }
 
 /* ---------- телефоны ---------- */
 @media (max-width: 860px) {
-  .nav { display: none; }
-  .top { justify-content: space-between; }
-  .hero-body { padding: 110px 0 180px; }
+  /* на телефоне и планшете меню уходит второй строкой под логотип */
+  .top { height: auto; flex-wrap: wrap; row-gap: 0; padding-top: 10px; justify-content: space-between; background: rgba(16, 12, 22, .86); backdrop-filter: blur(12px); box-shadow: 0 1px 0 var(--line); }
+  .nav { order: 3; width: 100%; margin: 0; gap: 20px; overflow-x: auto; padding: 10px 0 12px; scrollbar-width: none; }
+  .nav::-webkit-scrollbar { display: none; }
+  .nav a { white-space: nowrap; }
+  .donate { padding-top: 140px; }
+  .hero-body { padding: 150px 0 180px; }
   .steps { grid-template-columns: 1fr; gap: 30px; }
   .steps::before { left: 27px; right: auto; top: 28px; bottom: 28px; width: 2px; height: auto; }
   .steps li { padding: 0 0 0 80px; }
