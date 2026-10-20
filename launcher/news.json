@@ -1,11 +1,11 @@
 [
   {
     "tag": "Обновление",
-    "date": "2026-10-19",
-    "title": "Новый лаунчер CRM RP",
-    "text": "Ресурсы сервера теперь загружаются прямо в лаунчере — заходишь в игру без ожидания на экране загрузки.",
-    "image": "https://yolterfamq.github.io/crmrp-site/launcher/img/mvej7bq1-update-resources.webp",
-    "url": "https://yolterfamq.github.io/crmrp-site/"
+    "date": "2026-10-20",
+    "title": "Новый клиент и новая система входа!!",
+    "text": "Мы полностью обновили клиент игры и лаунчер. В игру теперь заходят только через лаунчер и по своему аккаунту, а персонаж привязан к аккаунту. Лаунчер сам скачивает обновления и ресурсы сервера, а уведомления приходят в колокольчик.",
+    "image": "https://yolterfamq.github.io/crmrp-site/launcher/img/mvgikzk5-21-obnovlennyj-launcher.webp",
+    "url": "https://crmrp.dpdns.org/"
   },
   {
     "tag": "Магазин",
