@@ -9,5 +9,19 @@
     "telegram": "",
     "youtube": ""
   },
-  "notice": ""
+  "notice": "",
+  "packages": [
+    {
+      "id": "game",
+      "name": "Клиент игры",
+      "manifest": "{github}/manifest.json",
+      "target": ""
+    },
+    {
+      "id": "resources",
+      "name": "Ресурсы сервера",
+      "manifest": "https://crmrp.dpdns.org/mta-res/manifest.json",
+      "target": "mods/deathmatch/resources"
+    }
+  ]
 }
