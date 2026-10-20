@@ -13,7 +13,7 @@ window.CRM_SITE = {
     "avHow": "Защитник Windows: Пуск → «Безопасность Windows» → Защита от вирусов и угроз → Управление настройками → выключи **«Защита в реальном времени»**."
   },
   "gameSize": "≈ 14 ГБ",
-  "forum": "https://forum.crmrp.dpdns.org/",
+  "forum": "https://forum.crmrp.dpdns.org",
   "discord": "https://discord.gg/Jx2UwJ2QZX",
   "vk": "",
   "telegram": "",
