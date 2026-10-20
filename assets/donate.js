@@ -45,7 +45,7 @@
       `Оплата на сайте скоро появится. Сейчас покупку «${it.name}» для ника ${n} можно оформить через тех-поддержку в Discord: ` +
       'создай обращение в канале «тех-поддержка» и напиши ник и что хочешь купить.';
     const d = modal.querySelector('[data-buy-discord]');
-    d.href = C.discord || '#';
+    d.href = 'discord';
     d.hidden = !C.discord;
     modal.hidden = false;
     modal.querySelector('[data-buy-close]').focus();

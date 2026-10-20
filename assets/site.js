@@ -53,7 +53,8 @@
     for (const [k, name] of have) {
       const li = document.createElement('li');
       const a = document.createElement('a');
-      a.href = C[k]; a.target = '_blank'; a.rel = 'noopener'; a.textContent = name;
+      // Discord — всегда через постоянную ссылку /discord (там свежее приглашение от виджета Discord)
+      a.href = k === 'discord' ? 'discord' : C[k]; a.target = '_blank'; a.rel = 'noopener'; a.textContent = name;
       li.append(a); ul.append(li);
     }
   } else {
