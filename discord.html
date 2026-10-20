@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Discord CRM RP</title>
+<meta name="robots" content="noindex">
+<style>
+  :root { color-scheme: dark; }
+  body { margin: 0; min-height: 100vh; display: grid; place-items: center; background: #100c16; color: #ece6f0;
+         font: 16px/1.5 'Segoe UI', system-ui, sans-serif; text-align: center; padding: 16px; box-sizing: border-box; }
+  a { color: #fff; background: linear-gradient(100deg, #a259ff, #e0245e); padding: 12px 22px; border-radius: 10px;
+      text-decoration: none; font-weight: 600; display: inline-block; margin-top: 14px; }
+  p { color: #a99db8; margin: 6px 0; }
+</style>
+<script src="assets/site.config.js"></script>
+</head>
+<body>
+<main>
+  <h1>Переходим в Discord CRM RP…</h1>
+  <p id="msg">Если не открылось само — нажми кнопку.</p>
+  <a id="go" href="./">Открыть Discord</a>
+</main>
+<script>
+  // постоянная ссылка: https://crmrp.dpdns.org/discord
+  // 1) приглашение из виджета Discord — его делает и обновляет сам Discord (Настройки сервера → Виджет)
+  // 2) если виджет выключен — ссылка из настроек сайта (поле «Discord» в админке)
+  var GUILD = '1561502507019149322';
+  var fallback = (window.CRM_SITE && window.CRM_SITE.discord) || '';
+  var done = false;
+  function go(url) {
+    if (done || !/^https:\/\/(discord\.gg|discord\.com\/invite)\//.test(url || '')) return false;
+    done = true;
+    document.getElementById('go').href = url;
+    location.replace(url);
+    return true;
+  }
+  function useFallback() {
+    if (!go(fallback)) {
+      document.getElementById('msg').textContent = 'Не получилось открыть приглашение. Попробуй позже.';
+      document.getElementById('go').textContent = 'На сайт';
+    }
+  }
+  var t = setTimeout(useFallback, 6000);
+  fetch('https://discord.com/api/guilds/' + GUILD + '/widget.json', { cache: 'no-store' })
+    .then(function (r) { return r.ok ? r.json() : null; })
+    .then(function (j) { clearTimeout(t); if (!(j && go(j.instant_invite))) useFallback(); })
+    .catch(function () { clearTimeout(t); useFallback(); });
+</script>
+</body>
+</html>
